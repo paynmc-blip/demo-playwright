@@ -1,0 +1,21 @@
+{
+  "name": "saucedemo-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright + TypeScript E2E suite for saucedemo.com (Page Object Model)",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "report:ai": "node .claude/scripts/report-ai.mjs",
+    "test:ai": "node .claude/scripts/report-ai.mjs --run-tests",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}
