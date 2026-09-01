@@ -46,7 +46,7 @@ test.describe('Cart', () => {
       await inventoryItemPage.addToCart();
 
       await expect(inventoryItemPage.removeButton).toBeVisible();
-      await expect(inventoryItemPage.cartBadge).toHaveText('1');
+      await expect(inventoryItemPage.cartBadge).toHaveText('500000');
     });
 
     // 3. Volver al inventario con el botón "Back to products".
