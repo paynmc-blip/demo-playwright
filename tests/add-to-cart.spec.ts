@@ -33,6 +33,8 @@ test.describe('Cart', () => {
       await expect(cartPage.items).toHaveCount(1);
       await expect(cartPage.quantityOf(BOLT_T_SHIRT)).toHaveText('1');
       await expect(cartPage.priceOf(BOLT_T_SHIRT)).toHaveText(BOLT_T_SHIRT.price);
+
+      expect(await cartPage.isTrue()).toBe(true);
     });
   });
 });
