@@ -136,6 +136,7 @@ jobs:
     needs: e2e
     runs-on: ubuntu-latest
     if: >-
+      always() &&
       needs.e2e.result == 'failure' &&
       github.event.pull_request.head.repo.full_name == github.repository
     permissions:
