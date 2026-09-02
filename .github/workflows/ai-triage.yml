@@ -273,8 +273,10 @@ jobs:
 
       # --- PASO 5: ETIQUETAS Y COMENTARIO FINAL ---
       - name: Apply Label & Post PR Comment
-        if: always() && steps.prep.outputs.found == 'true'
+        if: always()
         uses: actions/github-script@v9
+        env:
+          DEGRADED: ${{ steps.prep.outputs.found != 'true' }}
         with:
           script: |
             const fs = require("fs");
@@ -371,4 +373,22 @@ jobs:
               "</details>"
             ].join("\n");
 
-            await github.rest.issues.createComment({ owner, repo, issue_number: prNumber, body });
+            // Sin test-results.json no hay fallos que analizar, pero el informe se publica igual
+            // diciendo por que: un job que no comenta es indistinguible de un job que no corrio.
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const degradedBody = [
+              "## 🚨 Informe de Calidad (IA)",
+              "",
+              "⚠️ **La suite E2E no llegó a producir resultados**, así que no hay fallos de test que analizar.",
+              "",
+              "El job `Playwright E2E` terminó antes de ejecutar las pruebas y no subió el artefacto `test-results`. La causa habitual es que `npm ci` aborta porque `package.json` y `package-lock.json` están desincronizados.",
+              "",
+              `👉 [Ver el log del job E2E](${runUrl})`,
+              "",
+              "_El análisis IA se generará en cuanto la suite vuelva a ejecutarse y produzca `test-results.json`._"
+            ].join("\n");
+
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: prNumber,
+              body: process.env.DEGRADED === "true" ? degradedBody : body
+            });
