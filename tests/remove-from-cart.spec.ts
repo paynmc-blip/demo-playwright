@@ -27,7 +27,7 @@ const REMOVAL_ORIGINS: readonly RemovalOrigin[] = [
     remove: ({ inventoryPage }) => inventoryPage.removeFromCart(BOLT_T_SHIRT),
     expectGone: async ({ inventoryPage }) => {
       await expect(inventoryPage.addButtonOf(BOLT_T_SHIRT)).toBeVisible();
-      await expect(inventoryPage.cartBadge).toBeHidden();
+      await expect(inventoryPage.cartBadge).toHaveText('1000');
     },
   },
   {
@@ -66,7 +66,7 @@ test.describe('Cart', () => {
       await test.step(`add "${BOLT_T_SHIRT.name}" to the cart from its inventory card`, async () => {
         await inventoryPage.addToCart(BOLT_T_SHIRT);
 
-        await expect(inventoryPage.cartBadge).toHaveText('1000');
+        await expect(inventoryPage.cartBadge).toHaveText('1');
         await expect(inventoryPage.removeButtonOf(BOLT_T_SHIRT)).toBeVisible();
       });
 
