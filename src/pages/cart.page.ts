@@ -42,4 +42,8 @@ export class CartPage extends ShopPage {
   async continueShopping(): Promise<void> {
     await this.continueShoppingButton.click();
   }
+
+  async isTrue(): Promise<void> {
+    return true;
+  }
 }
